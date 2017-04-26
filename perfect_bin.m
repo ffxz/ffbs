@@ -2,8 +2,9 @@
 %                      *   *
 %                   *  *   *  *
 
+
 t4 = imread('t1.bmp');%t4为直接拍摄的图像
-%t4 = Ir;
+t4 = Ir;%用于测量图像配准之后的图像
 J = undistortImage(t4,params);%J为畸变矫正后的图像
 imshow(J);
 measure_point = detectCheckerboardPoints(J);%从矫正后图像中提取测量点

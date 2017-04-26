@@ -1,15 +1,22 @@
 
 %tic
 t1 = clock;
-N = 7;
+N = 12;
 images = cell(1,N);
 imagesUsed =cell(1,N);
 squareSize = 30;
+deltN = 0;%剔除内角点检测错误图像
 %获取N幅棋盘格图像角点坐标
 for ai =1:N
 imagename = sprintf('0%d.bmp',ai);  
 images{ai} = imread(imagename);
-[imagePoints(:,:,ai),boardSize,imagesUsed{ai}] = detectCheckerboardPoints(images{ai});
+if(size(detectCheckerboardPoints(images{ai}),1)==96)
+    [imagePoints(:,:,ai-deltN),boardSize,imagesUsed{ai-deltN}] = detectCheckerboardPoints(images{ai});
+else
+    deltN = deltN+1;
+    disp(ai)
+    disp('图像舍弃')
+end
 end
 %获取棋盘格世界坐标
 [worldPoints] = generateCheckerboardPoints(boardSize,squareSize);
